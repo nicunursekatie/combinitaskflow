@@ -1,0 +1,72 @@
+.dialogContent {
+  max-width: 500px;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.formRow {
+  display: flex;
+  gap: var(--spacing-4);
+  width: 100%;
+}
+
+.dateButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.clearDateButton {
+  position: absolute;
+  right: var(--spacing-2);
+  margin-left: auto;
+  color: var(--muted-foreground);
+}
+
+.clearDateButton:hover {
+  color: var(--foreground);
+}
+
+.categoryOption {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.categoryColor {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.energyEditor {
+  margin-top: var(--spacing-2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .formRow {
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+  
+  .form {
+    gap: var(--spacing-4);
+  }
+}
