@@ -1,0 +1,319 @@
+.container {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerButtons {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.batchEditButton {
+  position: relative;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.filters {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.searchBox {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+
+.searchInput {
+  padding-left: calc(var(--spacing-3) * 2 + 18px);
+}
+
+.filterSelects {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.filterSelect {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  font-size: 0.9375rem;
+  transition: border-color var(--animation-duration-fast) ease;
+}
+
+.filterSelect:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.quickAdd {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.quickAddInput {
+  flex: 1;
+}
+
+.taskList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.taskGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.groupTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-2) 0;
+  padding-bottom: var(--spacing-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.overdueTitle {
+  color: var(--task-overdue);
+}
+
+.todayTitle {
+  color: var(--task-today);
+}
+
+.tomorrowTitle, .upcomingTitle {
+  color: var(--task-upcoming);
+}
+
+.somedayTitle {
+  color: var(--task-someday);
+}
+
+.taskWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskItem {
+  padding: var(--spacing-2);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--animation-duration-fast) ease, border-color var(--animation-duration-fast) ease;
+  position: relative;
+}
+
+.taskItem.selectionMode {
+  cursor: pointer;
+}
+
+.taskItem:hover {
+  background-color: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.taskItem.selected {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.taskMain {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  padding: var(--spacing-1);
+  cursor: pointer;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--animation-duration-fast) ease;
+  z-index: 1;
+}
+
+.expandButton:hover {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.selectionIndicator {
+  position: absolute;
+  right: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox {
+  margin-top: var(--spacing-1);
+}
+
+.taskContent {
+  flex: 1;
+  cursor: pointer;
+}
+
+.taskTitle {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-1);
+}
+
+.completed .taskTitle {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+.taskMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.taskMetaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.overdue {
+  color: var(--task-overdue);
+}
+
+.today {
+  color: var(--task-today);
+}
+
+.tomorrow, .upcoming {
+  color: var(--task-upcoming);
+}
+
+.subtasks {
+  margin-left: var(--spacing-4);
+}
+
+.categoryBadge {
+  font-size: 0.75rem;
+  padding: var(--spacing-1) var(--spacing-2);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  text-align: center;
+  padding: var(--spacing-4);
+}
+
+.batchActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.batchActionsInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.batchActionsControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.categoryColorDot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--radius-full);
+  margin-right: var(--spacing-2);
+}
+
+.statusMessage {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: fadeIn var(--animation-duration-normal) ease;
+}
+
+.success {
+  background-color: color-mix(in srgb, var(--success) 15%, transparent);
+  color: var(--success);
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
+}
+
+.error {
+  background-color: color-mix(in srgb, var(--error) 15%, transparent);
+  color: var(--error);
+  border-bottom: 1px solid color-mix(in srgb, var(--error) 30%, transparent);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .filterSelects {
+    flex-direction: column;
+  }
+}

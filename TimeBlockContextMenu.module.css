@@ -1,0 +1,46 @@
+.triggerWrapper {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+.hasLinkedTask {
+  border-left: 2px solid var(--primary);
+}
+
+.linkedTaskIndicator {
+  position: absolute;
+  top: var(--spacing-1);
+  right: var(--spacing-1);
+  color: var(--primary);
+  z-index: var(--z-content);
+}
+
+.menuIcon {
+  margin-right: var(--spacing-2);
+}
+
+.unlinkItem {
+  color: var(--info);
+  font-weight: 500;
+}
+
+.unlinkItem:hover {
+  background-color: color-mix(in srgb, var(--info) 8%, transparent);
+  color: var(--info-hover);
+}
+
+.deleteItem {
+  color: var(--error);
+  font-weight: 500;
+}
+
+.deleteItem:hover {
+  background-color: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--error);
+}
+
+.deleteItem:active {
+  background-color: color-mix(in srgb, var(--error) 12%, transparent);
+}

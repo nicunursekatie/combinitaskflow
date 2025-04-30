@@ -1,0 +1,106 @@
+@layer base {
+  .tabsList {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    margin: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tabsList::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .tabsTrigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-base);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    background-color: transparent;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--animation-duration-normal) ease;
+    white-space: nowrap;
+  }
+
+  .tabsTrigger:hover {
+    color: var(--foreground);
+  }
+
+  .tabsTrigger[data-state="active"] {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .tabsTrigger[data-state="active"]::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transform-origin: left center;
+    animation: slideIn var(--animation-duration-normal) ease forwards;
+  }
+
+  .tabsTrigger:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+
+  .tabsTrigger[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: var(--muted-foreground);
+  }
+
+  .tabsContent {
+    color: var(--foreground);
+    outline: none;
+
+    &[hidden] {
+      display: none !important;
+    }
+  }
+
+  /* Pill style variant */
+  .tabsList[data-variant="pill"] {
+    background-color: var(--surface);
+    padding: var(--spacing-2);
+    border-radius: var(--radius-full);
+    border-bottom: none;
+    gap: var(--spacing-1);
+  }
+
+  .tabsList[data-variant="pill"] .tabsTrigger {
+    border-radius: var(--radius-full);
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+
+  .tabsList[data-variant="pill"] .tabsTrigger[data-state="active"] {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .tabsList[data-variant="pill"] .tabsTrigger[data-state="active"]::after {
+    display: none;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}

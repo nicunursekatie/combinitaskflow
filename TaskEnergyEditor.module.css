@@ -1,0 +1,130 @@
+.container {
+  background-color: color-mix(in srgb, var(--card) 90%, var(--muted));
+  border-radius: var(--radius);
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  border: 1px solid var(--border);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.sectionTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.infoTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-full);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.infoTrigger:hover {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.tooltipList {
+  margin: var(--spacing-2) 0 0;
+  padding-left: var(--spacing-4);
+  font-size: 0.8125rem;
+}
+
+.tooltipList li {
+  margin-bottom: var(--spacing-1);
+}
+
+.radioGroup {
+  margin-top: var(--spacing-1);
+}
+
+.optionsContainer {
+  display: flex;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+
+/* Energy level icons */
+.lowIcon {
+  color: var(--muted-foreground);
+}
+
+.mediumIcon {
+  color: var(--info);
+}
+
+.highIcon {
+  color: var(--success);
+}
+
+/* Activation energy icons */
+.zapIcon {
+  color: var(--muted-foreground);
+}
+
+.zapLow {
+  color: var(--success);
+}
+
+.zapMedium {
+  color: var(--warning);
+}
+
+.zapHigh {
+  color: var(--error);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .container {
+    padding: var(--spacing-3);
+    gap: var(--spacing-4);
+  }
+  
+  .optionsContainer {
+    gap: var(--spacing-3);
+  }
+  
+  .radioLabel {
+    font-size: 0.8125rem;
+  }
+}

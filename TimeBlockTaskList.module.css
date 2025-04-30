@@ -1,0 +1,144 @@
+.container {
+  width: 100%;
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--foreground);
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--card) 80%, var(--muted));
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.taskItem:hover {
+  background-color: color-mix(in srgb, var(--card) 60%, var(--muted));
+}
+
+.taskMain {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  flex: 1;
+  min-width: 0; /* Ensures text truncation works */
+}
+
+.checkbox {
+  flex-shrink: 0;
+  margin-top: var(--spacing-1);
+}
+
+.taskContent {
+  flex: 1;
+  min-width: 0; /* Ensures text truncation works */
+}
+
+.taskTitle {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+.taskMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.taskMetaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.metaText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 6rem;
+}
+
+.categoryBadge {
+  font-size: 0.75rem;
+  padding: var(--spacing-1) var(--spacing-2);
+  max-width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unlinkButton {
+  opacity: 0.6;
+  transition: opacity var(--animation-duration-fast) ease;
+}
+
+.taskItem:hover .unlinkButton {
+  opacity: 1;
+}
+
+.overdue {
+  color: var(--task-overdue);
+}
+
+.today {
+  color: var(--task-today);
+}
+
+.tomorrow {
+  color: var(--task-upcoming);
+}
+
+.upcoming {
+  color: var(--task-upcoming);
+}
+
+.loading, .emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.loading {
+  gap: var(--spacing-2);
+}
+
+@media (max-width: 640px) {
+  .metaText {
+    display: none;
+  }
+  
+  .taskMetaItem {
+    margin-right: 0;
+  }
+}

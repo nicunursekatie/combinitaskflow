@@ -1,0 +1,172 @@
+.container {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.form {
+  padding: var(--spacing-4);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.formRow {
+  display: flex;
+  gap: var(--spacing-4);
+  width: 100%;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.labelIcon {
+  color: var(--muted-foreground);
+}
+
+.titleInput {
+  font-size: 1.125rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.description {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.select {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  font-size: 0.9375rem;
+  transition: border-color var(--animation-duration-fast) ease;
+}
+
+.select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.categoryBadge {
+  margin-top: var(--spacing-2);
+}
+
+.energySection {
+  margin-top: var(--spacing-3);
+}
+
+.subtasksSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.subtasksTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtasksList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.subtaskItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--card) 80%, var(--muted));
+}
+
+.subtaskTitle {
+  font-size: 0.9375rem;
+}
+
+.subtaskTitle.completed {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+.noSubtasks {
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.addSubtaskForm {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.subtaskInput {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  text-align: center;
+  padding: var(--spacing-4);
+}
+
+@media (max-width: 767px) {
+  .formRow {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+}
