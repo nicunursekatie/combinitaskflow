@@ -1,6 +1,6 @@
 import { db } from "../../helpers/db";
 import { projects } from "../../helpers/schema";
-import { schema } from "./delete_POST.schema";
+import { schema } from "../../delete_POST.schema";
 import { eq } from "drizzle-orm";
 
 export async function handle(request: Request) {

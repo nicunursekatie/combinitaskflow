@@ -14,7 +14,7 @@ import { postTask } from '../endpoints/tasks_POST.schema';
 import { postProjects } from '../endpoints/projects_POST.schema';
 import { deleteProject as deleteProjectRemote } from '../endpoints/projects/delete_POST.schema';
 import { postCategory } from '../endpoints/categories_POST.schema';
-import { deleteCategory as deleteCategoryRemote } from '../endpoints/categories/delete_POST.schema';
+import { deleteCategory as deleteCategoryRemote } from '../endpoints/projects/delete_POST.schema';
 
 export const useTaskDatabase = () => {
   const [tasks, setTasks] = useState<LocalTask[]>([]);
