@@ -12,7 +12,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import { ThemeModeSwitch } from './ThemeModeSwitch';
+import { ThemeModeSwitch } from '../ThemeModeSwitch';
 import styles from './AppLayout.module.css';
 import { useIsMobile } from '../helpers/useIsMobile';
 
