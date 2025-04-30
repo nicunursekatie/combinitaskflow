@@ -1,5 +1,5 @@
 import { db } from "../../helpers/db";
-import { categories } from "../../helpers/schema";
+import { projects } from "../../helpers/schema";
 import { schema } from "./delete_POST.schema";
 import { eq } from "drizzle-orm";
 
@@ -12,33 +12,33 @@ export async function handle(request: Request) {
     const json = await request.json();
     const validatedData = schema.parse(json);
     
-    // Check if category exists before attempting to delete
-    const existingCategory = await db.query.categories.findFirst({
-      where: (categories, { eq: eqFunc }) => eqFunc(categories.id, validatedData.categoryId)
+    // Check if project exists before attempting to delete
+    const existingProject = await db.query.projects.findFirst({
+      where: (projects, { eq: eqFunc }) => eqFunc(projects.id, validatedData.projectId)
     });
     
-    if (!existingCategory) {
+    if (!existingProject) {
       return Response.json(
-        { message: `Category with ID ${validatedData.categoryId} not found` },
+        { message: `Project with ID ${validatedData.projectId} not found` },
         { status: 404 }
       );
     }
     
-    // Delete the category
+    // Delete the project
     await db
-      .delete(categories)
-      .where(eq(categories.id, validatedData.categoryId));
+      .delete(projects)
+      .where(eq(projects.id, validatedData.projectId));
     
     return Response.json({
       success: true,
-      message: "Category deleted successfully"
+      message: "Project deleted successfully"
     });
   } catch (error) {
-    console.error("Error deleting category:", error);
+    console.error("Error deleting project:", error);
     return Response.json(
       { 
         success: false,
-        message: error instanceof Error ? error.message : "Failed to delete category" 
+        message: error instanceof Error ? error.message : "Failed to delete project" 
       },
       { status: 400 }
     );

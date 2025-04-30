@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const schema = z.object({
-  categoryId: z.string().min(1, "Category ID is required")
+  projectId: z.string().min(1, "Project ID is required")
 });
 
 export type OutputType = {
@@ -9,13 +9,13 @@ export type OutputType = {
   message: string;
 };
 
-export const deleteCategory = async (
+export const deleteProject = async (
   body: z.infer<typeof schema>,
   init?: RequestInit
 ): Promise<OutputType> => {
   const validatedInput = schema.parse(body);
   
-  const result = await fetch(`/_api/categories/delete`, {
+  const result = await fetch(`/_api/projects/delete`, {
     method: "POST",
     body: JSON.stringify(validatedInput),
     ...init,
@@ -27,7 +27,7 @@ export const deleteCategory = async (
   
   if (!result.ok) {
     const errorData = await result.json();
-    throw new Error(errorData.message || "Failed to delete category");
+    throw new Error(errorData.message || "Failed to delete project");
   }
   
   return result.json();
