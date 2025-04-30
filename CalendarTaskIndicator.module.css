@@ -1,0 +1,49 @@
+.taskIndicator {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: transform var(--animation-duration-fast) ease;
+}
+
+.taskIndicator:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.taskTitle {
+  font-weight: 500;
+}
+
+.taskDueDate {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: 0.7rem;
+  margin-top: var(--spacing-1);
+}
+
+/* Month view specific styles */
+.month {
+  position: absolute;
+  max-width: 150px;
+  z-index: var(--z-content);
+}
+
+/* Week view specific styles */
+.week {
+  position: absolute;
+  max-width: 90%;
+  z-index: var(--z-content);
+}
+
+/* Day view specific styles */
+.day {
+  margin-bottom: var(--spacing-2);
+  width: 100%;
+}

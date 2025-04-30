@@ -1,0 +1,75 @@
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin: var(--spacing-4) 0;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.timeFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+.footer {
+  margin-top: var(--spacing-4);
+}
+
+.linkedTaskInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  background-color: color-mix(in srgb, var(--info) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--info) 30%, transparent);
+  border-radius: var(--radius);
+}
+
+.linkedTaskLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--info);
+  font-weight: 500;
+}
+
+.linkIcon {
+  color: var(--info);
+}
+
+.unlinkButton {
+  color: var(--info);
+  border-color: var(--info);
+}
+
+.unlinkButton:hover {
+  background-color: color-mix(in srgb, var(--info) 10%, transparent);
+}
+
+.unlinkIcon {
+  margin-right: var(--spacing-1);
+}
+
+.unlinkMessage {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--muted-foreground);
+}
+
+.errorMessage {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-1);
+}
+
+.linkedTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
