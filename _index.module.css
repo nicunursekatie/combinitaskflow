@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: var(--spacing-4);
+}
+
+.mainPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.sidePanel {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wizardButton {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.taskList {
+  flex: 1;
+}
+
+.taskDetail, .wizard {
+  flex: 1;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+}
+
+
+.backButton {
+  margin-bottom: var(--spacing-4);
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+  }
+}

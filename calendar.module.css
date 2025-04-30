@@ -1,0 +1,319 @@
+.calendarPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.currentPeriod {
+  font-weight: 500;
+  margin-left: var(--spacing-2);
+}
+
+.calendarContainer {
+  display: flex;
+  flex: 1;
+  gap: var(--spacing-4);
+  height: calc(100vh - 150px);
+  overflow: hidden;
+}
+
+.calendarMain {
+  flex: 1;
+  overflow: auto;
+  background-color: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.sidebar {
+  width: 280px;
+  background-color: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebarHeader {
+  padding: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebarTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.taskList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-2);
+}
+
+.taskItem {
+  padding: var(--spacing-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  margin-bottom: var(--spacing-2);
+  border: 1px solid var(--border);
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.taskItem:hover {
+  background-color: var(--muted);
+}
+
+.taskTitle {
+  font-weight: 500;
+  margin-bottom: var(--spacing-1);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.taskCheckbox {
+  flex-shrink: 0;
+}
+
+.taskCompleted {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+.taskDueDate {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.emptyState {
+  padding: var(--spacing-4);
+  text-align: center;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: var(--spacing-4);
+  color: var(--muted-foreground);
+}
+
+.sidebarFooter {
+  padding: var(--spacing-3);
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.sidebarNote {
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.plannerLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.plannerLink:hover {
+  text-decoration: underline;
+}
+
+/* Month View */
+.monthView {
+  position: relative;
+  padding: var(--spacing-4);
+}
+
+.monthCalendar {
+  width: 100%;
+  height: 100%;
+}
+
+.monthTasksOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Week View */
+.weekView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.weekHeader {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.weekTimeColumn {
+  width: 60px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+}
+
+.weekDay {
+  flex: 1;
+  text-align: center;
+  padding: var(--spacing-2);
+  min-width: 100px;
+}
+
+.weekDayName {
+  font-weight: 500;
+}
+
+.weekDayNumber {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.weekBody {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.weekTimeSlot {
+  height: 60px;
+  padding: var(--spacing-1);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-align: right;
+}
+
+.weekDayColumn {
+  flex: 1;
+  min-width: 100px;
+  border-right: 1px solid var(--border);
+}
+
+.weekTimeBlock {
+  height: 60px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* Day View */
+.dayView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dayHeader {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.dayDate {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.dayTimeGrid {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.dayTimeSlot {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeLabel {
+  width: 60px;
+  flex-shrink: 0;
+  padding: var(--spacing-1);
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-align: right;
+  border-right: 1px solid var(--border);
+}
+
+.timeContent {
+  flex: 1;
+  position: relative;
+  padding: var(--spacing-1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .calendarContainer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 200px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerLeft, .headerRight {
+    width: 100%;
+  }
+
+  .headerRight {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .weekDay, .weekDayColumn {
+    min-width: 80px;
+  }
+}
