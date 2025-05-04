@@ -56,57 +56,40 @@ export const useTaskStorage = () => {
 
   // Load data from localStorage on initial mount
   useEffect(() => {
-    const loadedTasks = localStorage.getItem(STORAGE_KEYS.TASKS);
-    const loadedProjects = localStorage.getItem(STORAGE_KEYS.PROJECTS);
-    const loadedCategories = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
-
-    if (loadedTasks) {
-      try {
-        const parsedTasks = JSON.parse(loadedTasks, (key, value) => {
-          // Convert date strings back to Date objects
-          if (key === 'dueDate' || key === 'createdAt' || key === 'updatedAt') {
-            return value ? new Date(value) : undefined;
+    try {
+      // Use a function to safely load data with appropriate error handling
+      const safelyLoadData = <T extends any[]>(key: string, setter: React.Dispatch<React.SetStateAction<T>>, defaultValue: T = [] as unknown as T) => {
+        try {
+          const loadedData = localStorage.getItem(key);
+          if (!loadedData) {
+            setter(defaultValue);
+            return;
           }
-          return value;
-        });
-        setTasks(parsedTasks);
-      } catch (error) {
-        console.error('Error parsing tasks from localStorage:', error);
-        setTasks([]);
-      }
+          
+          const parsedData = JSON.parse(loadedData, (k, value) => {
+            // Convert date strings back to Date objects
+            if (k === 'dueDate' || k === 'createdAt' || k === 'updatedAt') {
+              return value ? new Date(value) : undefined;
+            }
+            return value;
+          });
+          
+          setter(Array.isArray(parsedData) ? parsedData : defaultValue);
+        } catch (error) {
+          console.error(`Error parsing ${key} from localStorage:`, error);
+          setter(defaultValue);
+        }
+      };
+      
+      // Load each data type
+      safelyLoadData(STORAGE_KEYS.TASKS, setTasks, []);
+      safelyLoadData(STORAGE_KEYS.PROJECTS, setProjects, []);
+      safelyLoadData(STORAGE_KEYS.CATEGORIES, setCategories, []);
+    } catch (error) {
+      console.error('Error loading data from localStorage:', error);
+    } finally {
+      setIsLoaded(true);
     }
-
-    if (loadedProjects) {
-      try {
-        const parsedProjects = JSON.parse(loadedProjects, (key, value) => {
-          if (key === 'createdAt' || key === 'updatedAt') {
-            return value ? new Date(value) : undefined;
-          }
-          return value;
-        });
-        setProjects(parsedProjects);
-      } catch (error) {
-        console.error('Error parsing projects from localStorage:', error);
-        setProjects([]);
-      }
-    }
-
-    if (loadedCategories) {
-      try {
-        const parsedCategories = JSON.parse(loadedCategories, (key, value) => {
-          if (key === 'createdAt' || key === 'updatedAt') {
-            return value ? new Date(value) : undefined;
-          }
-          return value;
-        });
-        setCategories(parsedCategories);
-      } catch (error) {
-        console.error('Error parsing categories from localStorage:', error);
-        setCategories([]);
-      }
-    }
-
-    setIsLoaded(true);
   }, []);
 
   // Save data to localStorage whenever it changes

@@ -1,0 +1,7 @@
+[
+  {
+    "key": "shift+enter",
+    "command": "editor.action.insertLineAfter",
+    "when": "editorTextFocus && !editorReadonly"
+  }
+]

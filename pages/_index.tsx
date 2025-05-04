@@ -12,6 +12,8 @@ import {
 import { TaskList } from '../components/TaskList';
 import { TaskDetail } from '../components/TaskDetail';
 import { WhatNowWizard } from '../components/WhatNowWizard';
+import { ImportExportPanel } from '../components/ImportExportPanel';
+import { clearAllData } from '../lib/localStorageManager';
 import { Button } from '../components/Button';
 import { HelpCircle } from 'lucide-react';
 import styles from './_index.module.css';
@@ -25,7 +27,10 @@ export default function Dashboard() {
     isLoaded,
     addTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    addProject,
+    addCategory,
+    resetAllData
   } = useTaskDatabase();
   
 
@@ -43,7 +48,7 @@ export default function Dashboard() {
   });
 
   const isMobile = useIsMobile();
-  const [activePanel, setActivePanel] = useState<'list' | 'detail' | 'wizard'>(
+  const [activePanel, setActivePanel] = useState<'list' | 'detail' | 'wizard' | 'import-export'>(
     'list'
   );
 
@@ -139,7 +144,16 @@ export default function Dashboard() {
         case 'list':
           return (
             <>
-              <div className={styles.wizardButton}>
+              <div className={styles.mobileActions} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--spacing-4)' }}>
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    // Show the import/export panel for mobile
+                    setActivePanel('import-export');
+                  }}
+                >
+                  Data Management
+                </Button>
                 <Button onClick={handleOpenWizard}>
                   <HelpCircle size={16} /> What Now?
                 </Button>
@@ -196,6 +210,27 @@ export default function Dashboard() {
               />
             </>
           );
+        case 'import-export':
+          return (
+            <>
+              <Button 
+                variant="outline" 
+                onClick={handleBackToList}
+                className={styles.backButton}
+              >
+                Back to List
+              </Button>
+              <div className={styles.mobileImportExport}>
+                <ImportExportPanel
+                  tasks={tasks}
+                  projects={projects}
+                  categories={categories}
+                  onDataImported={handleDataImported}
+                  className={styles.importExportPanel}
+                />
+              </div>
+            </>
+          );
       }
     } else {
       return (
@@ -246,9 +281,29 @@ export default function Dashboard() {
     return <div className={styles.loading}>Loading...</div>;
   }
   
+  // Simple reload handler for when data is imported
+  const handleDataImported = () => {
+    // Force reload the page to refresh data from localStorage
+    window.location.reload();
+  };
+
   return (
     <div className={styles.container}>
-      {renderContent()}
+      <div className={styles.contentWrapper} style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        {renderContent()}
+      </div>
+      
+      {!isMobile && (
+        <div className={styles.dataManagementSection}>
+          <ImportExportPanel
+            tasks={tasks}
+            projects={projects}
+            categories={categories}
+            onDataImported={handleDataImported}
+            className={styles.importExportPanel}
+          />
+        </div>
+      )}
     </div>
   );
 }

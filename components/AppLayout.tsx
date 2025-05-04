@@ -1,7 +1,10 @@
 "use client";
 
 import React, { ReactNode, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ROUTES } from '../lib/routes';
+import { ThemeModeSwitch } from './ThemeModeSwitch';
 import { 
   LayoutDashboard, 
   ListTodo, 
@@ -12,7 +15,6 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import { ThemeModeSwitch } from '../ThemeModeSwitch';
 import styles from './AppLayout.module.css';
 import { useIsMobile } from '../helpers/useIsMobile';
 
@@ -22,7 +24,7 @@ interface AppLayoutProps {
 }
 
 export const AppLayout = ({ children, className = '' }: AppLayoutProps) => {
-  const location = useLocation();
+  const router = useRouter();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
 
@@ -37,12 +39,12 @@ export const AppLayout = ({ children, className = '' }: AppLayoutProps) => {
   };
 
   const navItems = [
-    { path: '/', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-    { path: '/tasks', label: 'Tasks', icon: <ListTodo size={20} /> },
-    { path: '/projects', label: 'Projects', icon: <FolderKanban size={20} /> },
-    { path: '/categories', label: 'Categories', icon: <Tag size={20} /> },
-    { path: '/calendar', label: 'Calendar', icon: <CalendarIcon size={20} /> },
-    { path: '/daily-planner', label: 'Daily Planner', icon: <Clock size={20} /> },
+    { path: ROUTES.HOME, label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+    { path: ROUTES.TASKS, label: 'Tasks', icon: <ListTodo size={20} /> },
+    { path: ROUTES.PROJECTS, label: 'Projects', icon: <FolderKanban size={20} /> },
+    { path: ROUTES.CATEGORIES, label: 'Categories', icon: <Tag size={20} /> },
+    { path: ROUTES.CALENDAR, label: 'Calendar', icon: <CalendarIcon size={20} /> },
+    { path: ROUTES.DAILY_PLANNER, label: 'Daily Planner', icon: <Clock size={20} /> },
   ];
 
   return (
@@ -70,8 +72,8 @@ export const AppLayout = ({ children, className = '' }: AppLayoutProps) => {
             {navItems.map((item) => (
               <li key={item.path} className={styles.navItem}>
                 <Link 
-                  to={item.path} 
-                  className={`${styles.navLink} ${location.pathname === item.path ? styles.active : ''}`}
+                  href={item.path} 
+                  className={`${styles.navLink} ${router.pathname === item.path ? styles.active : ''}`}
                   onClick={closeSidebarOnMobile}
                 >
                   {item.icon}

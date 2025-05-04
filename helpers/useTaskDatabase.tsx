@@ -15,6 +15,7 @@ import { postProjects } from '../endpoints/projects_POST.schema';
 import { deleteProject as deleteProjectRemote } from '../endpoints/projects/delete_POST.schema';
 import { postCategory } from '../endpoints/categories_POST.schema';
 import { deleteCategory as deleteCategoryRemote } from '../endpoints/projects/delete_POST.schema';
+import { loadFromLocalStorage, saveToLocalStorage, STORAGE_KEYS } from '../lib/localStorageManager';
 
 export const useTaskDatabase = () => {
   const [tasks, setTasks] = useState<LocalTask[]>([]);
@@ -24,45 +25,157 @@ export const useTaskDatabase = () => {
 
   useEffect(() => {
     async function fetchAll() {
+      // Track if we need to load sample data
+      let loadedAnyData = false;
+      
       try {
-        const [remoteTasks, remoteProjects, remoteCategories] = await Promise.all([
-          getTasks(),
-          getProjects(),
-          getCategories(),
-        ]);
-        // map tasks (including subtasks)
-        const localTasks = remoteTasks.map(mapRemoteTask);
-        setTasks(localTasks);
-        // map projects
-        setProjects(
-          remoteProjects.map(rp => ({
-            id: rp.id,
-            title: rp.name,
-            description: rp.description ?? undefined,
-            tasks: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          }))
-        );
-        // map categories
-        setCategories(
-          remoteCategories.map(rc => ({
-            id: rc.id,
-            title: rc.name,
-            color: rc.color,
-            tasks: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          }))
-        );
+        console.log('Attempting to load data...');
+        
+        // Try to load from localStorage first
+        const tasksLoaded = loadTasksFromLocalStorage();
+        const projectsLoaded = loadProjectsFromLocalStorage();
+        const categoriesLoaded = loadCategoriesFromLocalStorage();
+        
+        loadedAnyData = tasksLoaded || projectsLoaded || categoriesLoaded;
+        
+        // If we couldn't load from localStorage, try the API
+        if (!loadedAnyData) {
+          console.log('No data found in localStorage, attempting to load from API');
+          
+          try {
+            // API endpoints will internally check localStorage again
+            // to avoid fetch errors if possible
+            const results = await Promise.allSettled([
+              getTasks(),
+              getProjects(), 
+              getCategories()
+            ]);
+            
+            const [tasksResult, projectsResult, categoriesResult] = results;
+            
+            // Process tasks
+            if (tasksResult.status === 'fulfilled' && tasksResult.value.length > 0) {
+              console.log('Successfully loaded tasks from API');
+              const localTasks = tasksResult.value.map(mapRemoteTask);
+              setTasks(localTasks);
+              saveToLocalStorage(STORAGE_KEYS.TASKS, localTasks);
+              loadedAnyData = true;
+            }
+            
+            // Process projects
+            if (projectsResult.status === 'fulfilled' && projectsResult.value.length > 0) {
+              console.log('Successfully loaded projects from API');
+              const localProjects = projectsResult.value.map(rp => ({
+                id: rp.id,
+                title: rp.name,
+                description: rp.description ?? undefined,
+                tasks: undefined,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }));
+              setProjects(localProjects);
+              saveToLocalStorage(STORAGE_KEYS.PROJECTS, localProjects);
+              loadedAnyData = true;
+            }
+            
+            // Process categories
+            if (categoriesResult.status === 'fulfilled' && categoriesResult.value.length > 0) {
+              console.log('Successfully loaded categories from API');
+              const localCategories = categoriesResult.value.map(rc => ({
+                id: rc.id,
+                title: rc.name,
+                color: rc.color,
+                tasks: undefined,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }));
+              setCategories(localCategories);
+              saveToLocalStorage(STORAGE_KEYS.CATEGORIES, localCategories);
+              loadedAnyData = true;
+            }
+          } catch (apiError) {
+            console.error('Failed to load data from API:', apiError);
+          }
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
+        // If no data was loaded from any source, initialize with sample data
+        if (!loadedAnyData && tasks.length === 0 && projects.length === 0 && categories.length === 0) {
+          console.log('No data found in API or localStorage, initializing with sample data');
+          loadSampleData();
+        }
+        
         setIsLoaded(true);
       }
     }
+    
+    // Helper functions to load from localStorage with safety checks
+    const loadTasksFromLocalStorage = () => {
+      try {
+        const parsedTasks = loadFromLocalStorage<LocalTask[]>(STORAGE_KEYS.TASKS, []);
+        if (Array.isArray(parsedTasks) && parsedTasks.length > 0) {
+          console.log('Successfully loaded tasks from localStorage');
+          setTasks(parsedTasks);
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Error loading tasks from localStorage:', error);
+        return false;
+      }
+    };
+    
+    const loadProjectsFromLocalStorage = () => {
+      try {
+        const parsedProjects = loadFromLocalStorage<LocalProject[]>(STORAGE_KEYS.PROJECTS, []);
+        if (Array.isArray(parsedProjects) && parsedProjects.length > 0) {
+          console.log('Successfully loaded projects from localStorage');
+          setProjects(parsedProjects);
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Error loading projects from localStorage:', error);
+        return false;
+      }
+    };
+    
+    const loadCategoriesFromLocalStorage = () => {
+      try {
+        const parsedCategories = loadFromLocalStorage<LocalCategory[]>(STORAGE_KEYS.CATEGORIES, []);
+        if (Array.isArray(parsedCategories) && parsedCategories.length > 0) {
+          console.log('Successfully loaded categories from localStorage');
+          setCategories(parsedCategories);
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Error loading categories from localStorage:', error);
+        return false;
+      }
+    };
+    
+    // Helper to check if a Chrome extension is likely blocking fetch
+    const isExtensionBlockingFetch = async (): Promise<boolean> => {
+      try {
+        // Try a simple fetch to a known endpoint
+        await fetch('/api/health-check');
+        return false; // Fetch worked, no blocking
+      } catch (error) {
+        // Check for characteristic error patterns
+        const errorString = String(error);
+        if (errorString.includes('chrome-extension://jjfblogammkiefalfpafidabbnamoknm')) {
+          console.warn('Detected Chrome extension that may be blocking fetch requests');
+          return true;
+        }
+        return false;
+      }
+    };
+    
+    // Start fetching
     fetchAll();
-  }, []);
+  }, [tasks.length, projects.length, categories.length]);
 
   function mapRemoteTask(rt: RemoteTask): LocalTask {
     const subtasks = rt.tasks?.map(mapRemoteTask);
@@ -417,9 +530,114 @@ export const useTaskDatabase = () => {
     setTasks([]);
     setProjects([]);
     setCategories([]);
+    
+    // Clear localStorage using localStorageManager functions
+    try {
+      // Save empty arrays to effectively clear the storage
+      saveToLocalStorage(STORAGE_KEYS.TASKS, []);
+      saveToLocalStorage(STORAGE_KEYS.PROJECTS, []);
+      saveToLocalStorage(STORAGE_KEYS.CATEGORIES, []);
+      console.log('Successfully cleared all application data');
+    } catch (error) {
+      console.error('Error clearing application data:', error);
+    }
   };
+  
   const loadSampleData = () => {
-    throw new Error('loadSampleData is not implemented in useTaskDatabase');
+    // Default sample data to show when app has no data
+    const sampleTasks: LocalTask[] = [
+      {
+        id: 'task-1',
+        title: 'Create wireframes',
+        description: 'Design the UI wireframes for the new feature',
+        completed: false,
+        dueDate: new Date(Date.now() + 86400000 * 3), // 3 days from now
+        projectId: 'proj-1',
+        categoryId: 'cat-1',
+        energyLevel: 'medium',
+        activationEnergy: 'high',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 'task-2',
+        title: 'Research contractors',
+        description: 'Find and compare contractors for the home renovation',
+        completed: false,
+        dueDate: new Date(Date.now() + 86400000 * 7), // 7 days from now
+        projectId: 'proj-2',
+        categoryId: 'cat-2',
+        energyLevel: 'high',
+        activationEnergy: 'medium',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 'task-3',
+        title: 'Daily exercise',
+        description: '30 minutes of cardio',
+        completed: false,
+        dueDate: null,
+        projectId: null,
+        categoryId: 'cat-3',
+        energyLevel: 'high',
+        activationEnergy: 'low',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+    
+    const sampleProjects: LocalProject[] = [
+      {
+        id: 'proj-1',
+        title: 'Website Redesign',
+        description: 'Redesign the company website',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 'proj-2',
+        title: 'Home Renovation',
+        description: 'Renovate the kitchen and bathroom',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+    
+    const sampleCategories: LocalCategory[] = [
+      {
+        id: 'cat-1',
+        title: 'Work',
+        color: 'hsl(230, 65%, 60%)',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 'cat-2',
+        title: 'Personal',
+        color: 'hsl(330, 65%, 60%)',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 'cat-3',
+        title: 'Health',
+        color: 'hsl(145, 65%, 45%)',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+    
+    // Set the sample data
+    setTasks(sampleTasks);
+    setProjects(sampleProjects);
+    setCategories(sampleCategories);
+    
+    // Also save to localStorage using the helper function
+    saveToLocalStorage(STORAGE_KEYS.TASKS, sampleTasks);
+    saveToLocalStorage(STORAGE_KEYS.PROJECTS, sampleProjects);
+    saveToLocalStorage(STORAGE_KEYS.CATEGORIES, sampleCategories);
+    console.log('Sample data initialized and saved to localStorage');
   };
 
   return {

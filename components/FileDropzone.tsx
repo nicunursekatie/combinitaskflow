@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, File } from 'lucide-react';
 import { Button } from './Button';
 import styles from './FileDropzone.module.css';
 
@@ -119,7 +119,7 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
 
   return (
     <div className={`${styles.container} ${className ?? ""}`}>
-      <label
+      <div
         className={`
           ${styles.dropzone}
           ${isDragging ? styles.dragging : ''}
@@ -129,22 +129,20 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
+        onClick={() => {
+          // Find the file input
+          const fileInput = document.getElementById('import-file-input');
+          if (fileInput) {
+            fileInput.click();
+          }
+        }}
       >
-        <input
-          type="file"
-          onChange={handleFileInput}
-          accept={accept}
-          multiple={maxFiles > 1}
-          disabled={disabled}
-          aria-label="File upload"
-        />
-        
         <span className={styles.icon}>{icon}</span>
         <span className={styles.title}>{title}</span>
         {(subtitle || defaultSubtitle) && (
           <span className={styles.subtitle}>{subtitle || defaultSubtitle}</span>
         )}
-      </label>
+      </div>
 
       {error && (
         <div className={styles.error} role="alert">
