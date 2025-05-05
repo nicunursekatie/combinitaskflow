@@ -118,40 +118,69 @@ export const QuickTaskDialog = ({
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <Label htmlFor="task-date">Due Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
+              <div className={styles.dateSelectionWrapper}>
+                <div className={styles.dateButtonsGroup}>
                   <Button 
-                    id="task-date"
-                    variant="outline" 
-                    className={styles.dateButton}
                     type="button"
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      today.setHours(12, 0, 0, 0);
+                      setDate(today);
+                    }}
                   >
-                    <CalendarIcon size={16} />
-                    <span>{formatDate(date)}</span>
-                    {date && (
-                      <Button 
-                        type="button"
-                        variant="ghost" 
-                        size="icon-sm" 
-                        className={styles.clearDateButton}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDate(undefined);
-                        }}
-                      >
-                        <X size={14} />
-                      </Button>
-                    )}
+                    Today
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent removeBackgroundAndPadding>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                  />
-                </PopoverContent>
-              </Popover>
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + 1);
+                      tomorrow.setHours(12, 0, 0, 0);
+                      setDate(tomorrow);
+                    }}
+                  >
+                    Tomorrow
+                  </Button>
+                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      id="task-date"
+                      variant="outline" 
+                      className={styles.dateButton}
+                      type="button"
+                    >
+                      <CalendarIcon size={16} />
+                      <span>{formatDate(date)}</span>
+                      {date && (
+                        <Button 
+                          type="button"
+                          variant="ghost" 
+                          size="icon-sm" 
+                          className={styles.clearDateButton}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDate(undefined);
+                          }}
+                        >
+                          <X size={14} />
+                        </Button>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent removeBackgroundAndPadding>
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
           </div>
 

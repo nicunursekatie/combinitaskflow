@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
+import { BrowserRouter } from 'react-router-dom';
 import { AppLayout } from '../components/AppLayout';
 import '../global.css';
 import '../CombiniSetup.css';
@@ -36,8 +37,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <AppLayout>
-      <Component {...pageProps} />
-    </AppLayout>
+    <BrowserRouter>
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
+    </BrowserRouter>
   );
 }

@@ -44,6 +44,18 @@
   width: 100%;
 }
 
+.dateSelectionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.dateButtonsGroup {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
 .label {
   font-size: 0.875rem;
   font-weight: 500;

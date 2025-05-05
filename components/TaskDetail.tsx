@@ -176,12 +176,53 @@ export const TaskDetail = ({
               <CalendarIcon size={16} className={styles.labelIcon} />
               Due Date
             </label>
-            <Input
-              type="date"
-              name="dueDate"
-              value={editedTask.dueDate ? format(editedTask.dueDate, 'yyyy-MM-dd') : ''}
-              onChange={handleDateChange}
-            />
+            <div className={styles.dateSelectionWrapper}>
+              <div className={styles.dateButtonsGroup}>
+                <Button 
+                  type="button"
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    today.setHours(12, 0, 0, 0);
+                    setEditedTask(prev => prev ? { ...prev, dueDate: today } : null);
+                  }}
+                >
+                  Today
+                </Button>
+                <Button 
+                  type="button"
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    tomorrow.setHours(12, 0, 0, 0);
+                    setEditedTask(prev => prev ? { ...prev, dueDate: tomorrow } : null);
+                  }}
+                >
+                  Tomorrow
+                </Button>
+                {editedTask.dueDate && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditedTask(prev => prev ? { ...prev, dueDate: undefined } : null);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
+              <Input
+                type="date"
+                name="dueDate"
+                value={editedTask.dueDate ? format(editedTask.dueDate, 'yyyy-MM-dd') : ''}
+                onChange={handleDateChange}
+              />
+            </div>
           </div>
         </div>
 
