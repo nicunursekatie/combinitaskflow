@@ -18,7 +18,7 @@ export const postProjects = async (
 ): Promise<OutputType> => {
   const validatedInput = schema.parse(body);
   
-  const result = await fetch(`/_api/projects`, {
+  const result = await fetch(`/api/projects_POST`, {
     method: "POST",
     body: JSON.stringify(validatedInput),
     ...init,
@@ -29,8 +29,12 @@ export const postProjects = async (
   });
   
   if (!result.ok) {
-    const errorData = await result.json();
-    throw new Error(errorData.message || "Failed to create/update project");
+    try {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to create/update project");
+    } catch (jsonError) {
+      throw new Error(`Failed to create/update project: ${result.statusText}`);
+    }
   }
   
   return result.json();
